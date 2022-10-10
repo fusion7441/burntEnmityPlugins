@@ -33,7 +33,8 @@ const CopyRoleColors: Plugin = {
 
    onStart() {
       const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
-        // if (sheet !== 'UserProfileOverflow') return;
+        if (sheet !== 'ChannelLongPress') return;
+
 
 
         Toasts.open({ content: sheet, source: getIDByName('ic_message_copy') });
