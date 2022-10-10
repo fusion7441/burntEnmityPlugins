@@ -1,29 +1,50 @@
 import { Plugin, registerPlugin } from 'enmity/managers/plugins';
-import { React } from 'enmity/metro/common';
-import { getByProps } from 'enmity/metro';
-import { create } from 'enmity/patcher';
 import manifest from '../manifest.json';
+import { registerCommands } from "enmity/api/commands";
+import { React, Toasts } from 'enmity/metro/common';
+import { create } from 'enmity/patcher';
+import { bulk, filters } from 'enmity/metro';
+import { FormRow } from 'enmity/components';
+import { getIDByName } from 'enmity/api/assets';
 
-import Settings from './components/Settings';
+const [
+   LazyActionSheet,
+   Members,
+   Channels,
+   getLastSelectedGuildId,
+   getLastSelectedChannelId,
+   Clipboard,
+   Profile
+] = bulk(
+   filters.byProps('openLazy', 'hideActionSheet'),
+   filters.byProps('getMember'),
+   filters.byProps('getChannel'),
+   filters.byProps('getLastSelectedGuildId'),
+   filters.byProps('getLastSelectedChannelId'),
+   filters.byProps('setString'),
+   filters.byProps('showPlatformUserProfile')
+)
 
-const Typing = getByProps('startTyping');
-const Patcher = create('silent-typing');
+const Patcher = create('copy-role-colors');
 
-const SilentTyping: Plugin = {
+
+const CopyRoleColors: Plugin = {
    ...manifest,
 
    onStart() {
-      Patcher.instead(Typing, 'startTyping', () => { });
-      Patcher.instead(Typing, 'stopTyping', () => { });
+      const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
+        // if (sheet !== 'UserProfileOverflow') return;
+
+
+        Toasts.open({ content: sheet, source: getIDByName('ic_message_copy') });
+
+
+      });
    },
 
    onStop() {
       Patcher.unpatchAll();
    },
-
-   getSettingsPanel({ settings }) {
-      return <Settings settings={settings} />;
-   }
 };
 
-registerPlugin(SilentTyping);
+registerPlugin(CopyRoleColors);
