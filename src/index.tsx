@@ -40,8 +40,6 @@ const LongPresser: Plugin = {
         } else {
 
          Toasts.open({ content: `non-clp`, source: getIDByName('StatusDND') });
-
-
          
         }
  
