@@ -21,7 +21,7 @@ const Dashless: Plugin = {
             const textChannelName: any = findInReactTree(res, r => typeof r?.children === 'string');
             if (!textChannelName) return;
 
-            textChannelName.children = textChannelName.children.replace(dashRegExp, res.channel.id);
+            textChannelName.children = textChannelName.children.replace(textChannelName, '-');
             return res;
          });
          unpatchView();
