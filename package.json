@@ -1,5 +1,5 @@
 {
-   "name": "channel-plugin",
+   "name": "last-message",
    "description": "Gets Details for Channel.",
    "version": "1.0.0",
    "license": "GPL-3.0",
