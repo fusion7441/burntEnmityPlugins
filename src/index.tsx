@@ -1,36 +1,29 @@
 import { Plugin, registerPlugin } from 'enmity/managers/plugins';
-import { findInReactTree } from 'enmity/utilities';
+import { React } from 'enmity/metro/common';
+import { getByProps } from 'enmity/metro';
 import { create } from 'enmity/patcher';
 import manifest from '../manifest.json';
 
-import { View } from 'enmity/components';
+import Settings from './components/Settings';
 
-const Patcher = create('dashless');
+const Typing = getByProps('startTyping');
+const Patcher = create('silent-typing');
 
-const dashRegExp = new RegExp('-', 'g');
-
-const Dashless: Plugin = {
+const SilentTyping: Plugin = {
    ...manifest,
 
    onStart() {
-      const unpatchView = Patcher.after(View, 'render', (_ctx, _args, res) => {
-         const textChannel: any = findInReactTree(res, r => r?.props?.channel?.name && r?.props?.hasOwnProperty?.('isRulesChannel'));
-         if (!textChannel) return;
-
-         Patcher.after(textChannel.type, 'type', (_ctx, _args, res) => {
-            const textChannelName: any = findInReactTree(res, r => typeof r?.children === 'string');
-            if (!textChannelName) return;
-
-            textChannelName.children = textChannelName.children.replace(textChannelName, '-');
-            return res;
-         });
-         unpatchView();
-      });
+      Patcher.instead(Typing, 'startTyping', () => { });
+      Patcher.instead(Typing, 'stopTyping', () => { });
    },
 
    onStop() {
       Patcher.unpatchAll();
+   },
+
+   getSettingsPanel({ settings }) {
+      return <Settings settings={settings} />;
    }
 };
 
-registerPlugin(Dashless);
+registerPlugin(SilentTyping);
