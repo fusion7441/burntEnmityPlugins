@@ -1,7 +1,7 @@
 {
    "name": "LongPresser",
-   "version": "0.0.2",
-   "description": "Gets Silenter Typing...",
+   "version": "0.0.3",
+   "description": "WIP plugin to add attribute to channel presser",
    "authors": [
       {
          "name": "burnt",
