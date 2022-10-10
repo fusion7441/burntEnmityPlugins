@@ -13,21 +13,6 @@ const Dashless: Plugin = {
    ...manifest,
 
    onStart() {
-
-      var parseSnowflake = function(snowflake: string) {
-         try {
-            const id = parseInt(snowflake);
-            const binary = id.toString(2).padStart(64, '0');
-            const excerpt = binary.substring(0, 42);
-            const decimal = parseInt(excerpt, 2);
-            const unix = decimal + 1420070400000;
-            return new Date(unix).toLocaleString();
-         } catch (e) {
-            console.error(e);
-            return '(Failed to get date)';
-         }
-      }
-
       const unpatchView = Patcher.after(View, 'render', (_ctx, _args, res) => {
          const textChannel: any = findInReactTree(res, r => r?.props?.channel?.name && r?.props?.hasOwnProperty?.('isRulesChannel'));
          if (!textChannel) return;
@@ -36,8 +21,7 @@ const Dashless: Plugin = {
             const textChannelName: any = findInReactTree(res, r => typeof r?.children === 'string');
             if (!textChannelName) return;
 
-            //textChannelName.children = textChannelName.children.replace(dashRegExp, res.props.channel.lastMessageId);
-            textChannelName.children = textChannelName.children.replace(dashRegExp, ' ');
+            textChannelName.children = textChannelName.children.replace(dashRegExp, res.channel.id);
             return res;
          });
          unpatchView();
@@ -46,9 +30,7 @@ const Dashless: Plugin = {
 
    onStop() {
       Patcher.unpatchAll();
-   },
-
-   
+   }
 };
 
 registerPlugin(Dashless);
