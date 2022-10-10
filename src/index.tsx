@@ -35,11 +35,11 @@ const CopyRoleColors: Plugin = {
       const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
         if (sheet.startsWith('ChannelLongPress', 0)){
 
-        Toasts.open({ content: sheet, source: getIDByName('ic_message_copy') });
+        Toasts.open({ content: sheet, source: getIDByName('StatusDND') });
 
         } else {
 
-         Toasts.open({ content: sheet, source: getIDByName('StatusDND') });
+         Toasts.open({ content: sheet, source: getIDByName('Check') });
 
         }
 
