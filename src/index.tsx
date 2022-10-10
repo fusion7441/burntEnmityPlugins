@@ -42,7 +42,7 @@ const CopyRoleColors: Plugin = {
          Toasts.open({ content: sheet, source: getIDByName('ic_selection_checked_24px') });
 
         }
-
+ 
 
       });
    },
