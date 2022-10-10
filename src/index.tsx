@@ -33,7 +33,7 @@ const CopyRoleColors: Plugin = {
 
    onStart() {
       const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
-        if (sheet !== 'ChannelLongPress') return;
+        if (!sheet.startsWith('ChannelLongPress')) return;
 
 
 
