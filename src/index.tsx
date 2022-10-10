@@ -28,12 +28,12 @@ const [
 const Patcher = create('copy-role-colors');
 
 
-const CopyRoleColors: Plugin = {
+const LongPresser: Plugin = {
    ...manifest,
 
    onStart() {
       const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
-        if (!sheet.startsWith('ChannelLongPress', 0)){
+        if (sheet.startsWith('ChannelLongPress', 0)){
 
         Toasts.open({ content: sheet, source: getIDByName('StatusDND') });
 
@@ -52,4 +52,4 @@ const CopyRoleColors: Plugin = {
    },
 };
 
-registerPlugin(CopyRoleColors);
+registerPlugin(LongPresser);
