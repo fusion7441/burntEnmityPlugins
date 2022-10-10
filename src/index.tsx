@@ -35,11 +35,11 @@ const LongPresser: Plugin = {
       const unpatcher = Patcher.before(LazyActionSheet, 'openLazy', ({ hideActionSheet }, [component, sheet]) => {
         if (sheet.startsWith('ChannelLongPress', 0)){
 
-        Toasts.open({ content: sheet, source: getIDByName('ic_selection_checked_24px') });
+        Toasts.open({ content: `CLP`, source: getIDByName('ic_selection_checked_24px') });
 
         } else {
 
-         Toasts.open({ content: sheet, source: getIDByName('StatusDND') });
+         Toasts.open({ content: `non-clp`, source: getIDByName('StatusDND') });
 
 
          
